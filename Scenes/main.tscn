@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2pfmipjak6av"]
+
+[ext_resource type="Script" path="res://Scripts/main.gd" id="1_lx1cv"]
+[ext_resource type="PackedScene" uid="uid://bsdwfpota0gns" path="res://Scenes/cat.tscn" id="2_fbvcj"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_lx1cv")
+
+[node name="Cat" parent="." instance=ExtResource("2_fbvcj")]
+position = Vector2(564, 307)
