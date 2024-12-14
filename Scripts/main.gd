@@ -1,7 +1,7 @@
 extends Node2D
 
 var passthrough_update_timer = 0
-var passthrough_update_interval = 0.05
+var passthrough_update_interval = 0.0
 
 var down := true
 var on_floor := true
@@ -14,11 +14,10 @@ func _process(delta):
 	if Input.is_action_just_pressed("close"):
 		get_tree().quit()
 	
-	passthrough_update_timer += delta
-	if texture_corners.size() >= 10 and passthrough_update_timer >= passthrough_update_interval:
+
+	if texture_corners.size() >= 10:
 		DisplayServer.window_set_mouse_passthrough(texture_corners)
 		texture_corners = PackedVector2Array()
-		passthrough_update_timer = 0
 		
 		
 func set_passthrough(cat_pos: Vector2, enable, falling):
@@ -54,11 +53,11 @@ func set_passthrough(cat_pos: Vector2, enable, falling):
 			texture_corners = PackedVector2Array()
 		else:
 			$ColorRect.color = 125
-			texture_corners.append(cat_pos - Vector2(62, 200)) # Top left corner
-			texture_corners.append(cat_pos + Vector2(46, 0) - Vector2(0, 200)) # Top right corner
+			texture_corners.append(cat_pos - Vector2(62, 108)) # Top left corner
+			texture_corners.append(cat_pos + Vector2(46, 0) - Vector2(0, 108)) # Top right corner
 			texture_corners.append(cat_pos + Vector2(46, 0)) # Bottom right corner
 			texture_corners.append(cat_pos - Vector2(62, 0)) # Bottom left corne
-			texture_corners.append(cat_pos - Vector2(62, 200)) # for the complete square
+			texture_corners.append(cat_pos - Vector2(62, 108)) # for the complete square
 		last_cat_pos = cat_pos
 
 

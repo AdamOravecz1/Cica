@@ -16,7 +16,7 @@ var total_maximum_window_size #also mainly for debugging
 var start_playable_area = DisplayServer.screen_get_position(DisplayServer.get_keyboard_focus_screen()) #First pixel at the top left
 var maximum_window_size = DisplayServer.screen_get_size(DisplayServer.get_keyboard_focus_screen()) #Last pixel at the bottom right
 var passthrough_update_timer = 0
-var passthrough_update_interval = 0.05
+var passthrough_update_interval = 0.0
 var screen_size = DisplayServer.screen_get_size().x
 var floor = DisplayServer.screen_get_usable_rect(DisplayServer.get_keyboard_focus_screen()).size.y - DisplayServer.screen_get_position(DisplayServer.get_keyboard_focus_screen()).y
 
@@ -49,10 +49,10 @@ func _process(delta):
 		$RestTimer.stop()
 		animation.play("up")
 		
-	passthrough_update_timer += delta
-	if passthrough_update_timer >= passthrough_update_interval:
-		main.set_passthrough(position, !dragging, falling)
-		passthrough_update_timer = 0
+	#passthrough_update_timer += delta
+	#if passthrough_update_timer >= passthrough_update_interval:
+	main.set_passthrough(position, !dragging, falling)
+		#passthrough_update_timer = 0
 		
 	if (position.x > screen_size-50 or position.x < 50) and !falling and !dragging:
 		turn()
