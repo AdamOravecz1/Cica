@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://ktpmw5hlfnnv"]
 
 [ext_resource type="Script" path="res://Scripts/cica.gd" id="1_jk3dj"]
-[ext_resource type="Texture2D" uid="uid://cv8hpryenm4o2" path="res://Sprite/Cica0.png" id="3_j4fim"]
+[ext_resource type="Texture2D" path="res://Sprite/Cica0.png" id="3_j4fim"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jecuk"]
 size = Vector2(190, 126)

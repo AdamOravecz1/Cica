@@ -1,5 +1,9 @@
 extends Area2D
 
+@export var type := 0
+
+@onready var animation = $AnimatedSprite2D
+
 var speed = 50
 var fall_speed = 500
 var direction = 1
@@ -12,13 +16,19 @@ var total_maximum_window_size #also mainly for debugging
 var start_playable_area = DisplayServer.screen_get_position(DisplayServer.get_keyboard_focus_screen()) #First pixel at the top left
 var maximum_window_size = DisplayServer.screen_get_size(DisplayServer.get_keyboard_focus_screen()) #Last pixel at the bottom right
 var passthrough_update_timer = 0
-var passthrough_update_interval = 0.05
+var passthrough_update_interval = 0.08
 var screen_size = DisplayServer.screen_get_size().x
 var floor = DisplayServer.screen_get_usable_rect(DisplayServer.get_keyboard_focus_screen()).size.y - DisplayServer.screen_get_position(DisplayServer.get_keyboard_focus_screen()).y
 
 @onready var main = get_tree().get_first_node_in_group("Main")
 
 func _ready():
+	if type == 0:
+		$AnimatedSprite2D2.hide()
+		animation = $AnimatedSprite2D
+	else:
+		$AnimatedSprite2D.hide()
+		animation = $AnimatedSprite2D2
 	total_maximum_window_size = start_playable_area + maximum_window_size #The sum of starting pixel and ending pixel
 	position.y = floor
 	print(position)
@@ -29,7 +39,7 @@ func _ready():
 func turn():
 	facing_left = !facing_left
 	direction *= -1
-	$AnimatedSprite2D.flip_h = facing_left
+	animation.flip_h = facing_left
 	
 
 func _process(delta):
@@ -37,7 +47,7 @@ func _process(delta):
 		speed = 0
 		dragging = !dragging
 		$RestTimer.stop()
-		$AnimatedSprite2D.play("up")
+		animation.play("up")
 		
 	passthrough_update_timer += delta
 	if passthrough_update_timer >= passthrough_update_interval:
@@ -51,7 +61,7 @@ func _process(delta):
 		position = get_global_mouse_position() + Vector2(0, 50)
 		main.up()
 	elif falling:
-		$AnimatedSprite2D.play("fall")
+		animation.play("fall")
 		main.not_up()
 		
 	global_position.x += speed*direction*delta
@@ -62,7 +72,7 @@ func _process(delta):
 		falling = false
 		global_position.y = floor
 		$RestTimer.start()
-		$AnimatedSprite2D.play("walk")
+		animation.play("walk")
 		speed = 50
 		if position.x > screen_size-50:
 			position.x = screen_size-50
@@ -73,23 +83,26 @@ func _process(delta):
 func _on_rest_timer_timeout():
 	if speed == 50:
 		speed = 0
-		$AnimatedSprite2D.play("rest")
+		animation.play("rest")
 	else:
-		$AnimatedSprite2D.play("wake_up")
+		animation.play("wake_up")
 		
 	$RestTimer.wait_time = randi_range(5, 60)
 	$RestTimer.start()
 
 
 func _on_animated_sprite_2d_animation_finished():
-	if $AnimatedSprite2D.animation == "wake_up":
-		$AnimatedSprite2D.play("walk")
+	if animation.animation == "wake_up":
+		animation.play("walk")
 		speed = 50
 
+func _on_animated_sprite_2d_2_animation_finished():
+	if animation.animation == "wake_up":
+		animation.play("walk")
+		speed = 50
+	
 func _on_mouse_entered():
 	upable = true
-	print(upable)
 
 func _on_mouse_exited():
 	upable = false
-	print(upable)

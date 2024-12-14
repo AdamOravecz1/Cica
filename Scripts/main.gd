@@ -1,5 +1,4 @@
 extends Node2D
-@onready var cat = $Cat
 
 var down := true
 

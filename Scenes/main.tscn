@@ -15,6 +15,7 @@ offset_right = 1951.0
 offset_bottom = 1198.0
 
 [node name="Icon" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(1104.5, 610)
 scale = Vector2(21.3984, 12.7656)
 texture = ExtResource("3_gxadw")
@@ -24,3 +25,4 @@ position = Vector2(1487, 193)
 
 [node name="Cat2" parent="." instance=ExtResource("2_fbvcj")]
 position = Vector2(1675, 189)
+type = 1

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cv8hpryenm4o2"
-path="res://.godot/imported/Cica0.png-8e22172e6e05754a8a397e1aefc1b303.ctex"
+uid="uid://bq8lj2cbuv5qa"
+path="res://.godot/imported/PisztaCica.png-075176db26f81fe516489de37d7ea07d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprite/Cica0.png"
-dest_files=["res://.godot/imported/Cica0.png-8e22172e6e05754a8a397e1aefc1b303.ctex"]
+source_file="res://Sprite/PisztaCica.png"
+dest_files=["res://.godot/imported/PisztaCica.png-075176db26f81fe516489de37d7ea07d.ctex"]
 
 [params]
 
