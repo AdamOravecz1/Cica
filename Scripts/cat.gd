@@ -16,7 +16,7 @@ var total_maximum_window_size #also mainly for debugging
 var start_playable_area = DisplayServer.screen_get_position(DisplayServer.get_keyboard_focus_screen()) #First pixel at the top left
 var maximum_window_size = DisplayServer.screen_get_size(DisplayServer.get_keyboard_focus_screen()) #Last pixel at the bottom right
 var passthrough_update_timer = 0
-var passthrough_update_interval = 0.08
+var passthrough_update_interval = 0.05
 var screen_size = DisplayServer.screen_get_size().x
 var floor = DisplayServer.screen_get_usable_rect(DisplayServer.get_keyboard_focus_screen()).size.y - DisplayServer.screen_get_position(DisplayServer.get_keyboard_focus_screen()).y
 
@@ -69,6 +69,7 @@ func _process(delta):
 		falling = true
 		global_position.y += fall_speed*delta
 	elif position.y > floor and (falling or !dragging):
+		main.on_floor = true
 		falling = false
 		global_position.y = floor
 		$RestTimer.start()

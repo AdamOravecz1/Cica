@@ -1,6 +1,10 @@
 extends Node2D
 
+var passthrough_update_timer = 0
+var passthrough_update_interval = 0.05
+
 var down := true
+var on_floor := true
 
 var texture_corners: Array
 var last_cat_pos = Vector2()
@@ -10,14 +14,16 @@ func _process(delta):
 	if Input.is_action_just_pressed("close"):
 		get_tree().quit()
 	
-	if texture_corners.size() >= 10:
+	passthrough_update_timer += delta
+	if texture_corners.size() >= 10 and passthrough_update_timer >= passthrough_update_interval:
 		DisplayServer.window_set_mouse_passthrough(texture_corners)
 		texture_corners = PackedVector2Array()
+		passthrough_update_timer = 0
 		
 		
 func set_passthrough(cat_pos: Vector2, enable, falling):
 	if enable and !falling and down:
-		if (cat_pos.x > last_cat_pos.x - 100 and cat_pos.x < last_cat_pos.x + 100) and (cat_pos.y > last_cat_pos.y - 100 and cat_pos.y < last_cat_pos.y + 100):
+		if (cat_pos.x > last_cat_pos.x - 110 and cat_pos.x < last_cat_pos.x + 110) and (cat_pos.y > last_cat_pos.y - 100 and cat_pos.y < last_cat_pos.y + 100) and on_floor:
 			middle_cat_pos = (last_cat_pos + cat_pos) / 2
 			$ColorRect.color = 125
 			texture_corners.append(middle_cat_pos - Vector2(120, 108)) # Top left corner
@@ -37,6 +43,8 @@ func set_passthrough(cat_pos: Vector2, enable, falling):
 	elif enable and down:
 		if (cat_pos.x > last_cat_pos.x - 100 and cat_pos.x < last_cat_pos.x + 100) and (cat_pos.y > last_cat_pos.y - 100 and cat_pos.y < last_cat_pos.y + 100):
 			middle_cat_pos = (last_cat_pos + cat_pos) / 2
+			texture_corners = PackedVector2Array()
+			DisplayServer.window_set_mouse_passthrough(texture_corners) # Disable passthrough by setting an empty array
 			$ColorRect.color = 125
 			texture_corners.append(middle_cat_pos - Vector2(120, 200)) # Top left corner
 			texture_corners.append(middle_cat_pos + Vector2(90, 0) - Vector2(0, 200)) # Top right corner
@@ -55,6 +63,7 @@ func set_passthrough(cat_pos: Vector2, enable, falling):
 
 
 func up():
+	on_floor = false
 	down = false
 	texture_corners = PackedVector2Array()
 	DisplayServer.window_set_mouse_passthrough(texture_corners) # Disable passthrough by setting an empty array
