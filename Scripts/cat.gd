@@ -6,6 +6,7 @@ var direction = 1
 var facing_left := false
 var dragging := false
 var falling := false
+var upable := false
 
 var total_maximum_window_size #also mainly for debugging
 var start_playable_area = DisplayServer.screen_get_position(DisplayServer.get_keyboard_focus_screen()) #First pixel at the top left
@@ -14,6 +15,8 @@ var passthrough_update_timer = 0
 var passthrough_update_interval = 0.05
 var screen_size = DisplayServer.screen_get_size().x
 var floor = DisplayServer.screen_get_usable_rect(DisplayServer.get_keyboard_focus_screen()).size.y - DisplayServer.screen_get_position(DisplayServer.get_keyboard_focus_screen()).y
+
+@onready var main = get_tree().get_first_node_in_group("Main")
 
 func _ready():
 	total_maximum_window_size = start_playable_area + maximum_window_size #The sum of starting pixel and ending pixel
@@ -27,9 +30,10 @@ func turn():
 	facing_left = !facing_left
 	direction *= -1
 	$AnimatedSprite2D.flip_h = facing_left
+	
 
 func _process(delta):
-	if Input.is_action_just_pressed("click"):
+	if Input.is_action_just_pressed("click") and upable:
 		speed = 0
 		dragging = !dragging
 		$RestTimer.stop()
@@ -37,7 +41,7 @@ func _process(delta):
 		
 	passthrough_update_timer += delta
 	if passthrough_update_timer >= passthrough_update_interval:
-		set_passthrough(position, !dragging, falling)
+		main.set_passthrough(position, !dragging, falling)
 		passthrough_update_timer = 0
 		
 	if (position.x > screen_size-50 or position.x < 50) and !falling and !dragging:
@@ -45,8 +49,10 @@ func _process(delta):
 		
 	if dragging:
 		position = get_global_mouse_position() + Vector2(0, 50)
+		main.up()
 	elif falling:
 		$AnimatedSprite2D.play("fall")
+		main.not_up()
 		
 	global_position.x += speed*direction*delta
 	if position.y < floor and !dragging:
@@ -79,25 +85,11 @@ func _on_animated_sprite_2d_animation_finished():
 	if $AnimatedSprite2D.animation == "wake_up":
 		$AnimatedSprite2D.play("walk")
 		speed = 50
-		
-func set_passthrough(cat_pos: Vector2, enable, falling):
-	if enable and !falling:
-		var texture_corners: PackedVector2Array = [
-			cat_pos - Vector2(62, 108), # Top left corner
-			cat_pos + Vector2(46, 0) - Vector2(0, 108), # Top right corner
-			cat_pos + Vector2(46, 0) - Vector2(0, 32), # Bottom right corner
-			cat_pos - Vector2(62, 0) - Vector2(0, 32)] # Bottom left corne
-		DisplayServer.window_set_mouse_passthrough(texture_corners)
-	elif enable:
-		var texture_corners: PackedVector2Array = [
-			cat_pos - Vector2(62, 200), # Top left corner
-			cat_pos + Vector2(46, 0) - Vector2(0, 200), # Top right corner
-			cat_pos + Vector2(46, 0), # Bottom right corner
-			cat_pos - Vector2(62, 0)] # Bottom left corne
-		DisplayServer.window_set_mouse_passthrough(texture_corners)
-	else:
-		# Disable passthrough by setting an empty array
-		DisplayServer.window_set_mouse_passthrough(PackedVector2Array())
-		
 
+func _on_mouse_entered():
+	upable = true
+	print(upable)
 
+func _on_mouse_exited():
+	upable = false
+	print(upable)
