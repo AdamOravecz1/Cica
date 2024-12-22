@@ -79,6 +79,8 @@ func _process(delta):
 		falling = true
 		global_position.y += fall_speed*delta
 	elif position.y > floor and (falling or !dragging):
+		main.not_up()
+		print("itt")
 		main.on_floor = true
 		falling = false
 		global_position.y = floor
