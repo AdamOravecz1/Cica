@@ -2,22 +2,16 @@
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_lx1cv"]
 [ext_resource type="PackedScene" uid="uid://bsdwfpota0gns" path="res://Scenes/cat.tscn" id="2_fbvcj"]
-[ext_resource type="Texture2D" uid="uid://e06a86dmq1qr" path="res://icon.svg" id="3_gxadw"]
+[ext_resource type="Texture2D" uid="uid://e06a86dmq1qr" path="res://icon.svg" id="3_md37e"]
 
 [node name="Main" type="Node2D" groups=["Main"]]
 script = ExtResource("1_lx1cv")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-visible = false
-offset_left = -4.0
-offset_top = -2.0
-offset_right = 1951.0
-offset_bottom = 1198.0
-
 [node name="Icon" type="Sprite2D" parent="."]
-position = Vector2(1104.5, 610)
-scale = Vector2(21.3984, 12.7656)
-texture = ExtResource("3_gxadw")
+visible = false
+position = Vector2(1029.5, 772)
+scale = Vector2(16.1016, 12.2656)
+texture = ExtResource("3_md37e")
 
 [node name="Cat" parent="." instance=ExtResource("2_fbvcj")]
 position = Vector2(1487, 193)

@@ -10,6 +10,8 @@ var texture_corners: Array
 var last_cat_pos = Vector2()
 var middle_cat_pos = Vector2()
 
+var screen_size_y = DisplayServer.screen_get_size().y
+
 func _process(delta):
 	if Input.is_action_just_pressed("close"):
 		get_tree().quit()
@@ -24,19 +26,19 @@ func set_passthrough(cat_pos: Vector2, enable, falling):
 	if enable and !falling and down:
 		if (cat_pos.x > last_cat_pos.x - 110 and cat_pos.x < last_cat_pos.x + 110) and (cat_pos.y > last_cat_pos.y - 100 and cat_pos.y < last_cat_pos.y + 100) and on_floor:
 			middle_cat_pos = (last_cat_pos + cat_pos) / 2
-			$ColorRect.color = 125
+		
 			texture_corners.append(middle_cat_pos - Vector2(120, 108)) # Top left corner
 			texture_corners.append(middle_cat_pos + Vector2(90, 0) - Vector2(0, 108)) # Top right corner
-			texture_corners.append(middle_cat_pos + Vector2(90, 0) - Vector2(0, 40)) # Bottom right corner
-			texture_corners.append(middle_cat_pos - Vector2(120, 0) - Vector2(0, 40)) # Bottom left corne
+			texture_corners.append(middle_cat_pos + Vector2(90, 0) - Vector2(0, 38)) # Bottom right corner
+			texture_corners.append(middle_cat_pos - Vector2(120, 0) - Vector2(0, 38)) # Bottom left corne
 			DisplayServer.window_set_mouse_passthrough(texture_corners)
 			texture_corners = PackedVector2Array()
 		else:
-			$ColorRect.color = 125
+			
 			texture_corners.append(cat_pos - Vector2(62, 108)) # Top left corner
 			texture_corners.append(cat_pos + Vector2(46, 0) - Vector2(0, 108)) # Top right corner
-			texture_corners.append(cat_pos + Vector2(46, 0) - Vector2(0, 40)) # Bottom right corner
-			texture_corners.append(cat_pos - Vector2(62, 0) - Vector2(0, 40)) # Bottom left corne
+			texture_corners.append(cat_pos + Vector2(46, 0) - Vector2(0, 38)) # Bottom right corner
+			texture_corners.append(cat_pos - Vector2(62, 0) - Vector2(0, 38)) # Bottom left corne
 			texture_corners.append(cat_pos - Vector2(62, 108)) # for the complete square
 		last_cat_pos = cat_pos
 	elif enable and down:
@@ -44,7 +46,6 @@ func set_passthrough(cat_pos: Vector2, enable, falling):
 			middle_cat_pos = (last_cat_pos + cat_pos) / 2
 			texture_corners = PackedVector2Array()
 			DisplayServer.window_set_mouse_passthrough(texture_corners) # Disable passthrough by setting an empty array
-			$ColorRect.color = 125
 			texture_corners.append(middle_cat_pos - Vector2(120, 200)) # Top left corner
 			texture_corners.append(middle_cat_pos + Vector2(90, 0) - Vector2(0, 200)) # Top right corner
 			texture_corners.append(middle_cat_pos + Vector2(90, 0)) # Bottom right corner
@@ -52,7 +53,6 @@ func set_passthrough(cat_pos: Vector2, enable, falling):
 			DisplayServer.window_set_mouse_passthrough(texture_corners)
 			texture_corners = PackedVector2Array()
 		else:
-			$ColorRect.color = 125
 			texture_corners.append(cat_pos - Vector2(62, 108)) # Top left corner
 			texture_corners.append(cat_pos + Vector2(46, 0) - Vector2(0, 108)) # Top right corner
 			texture_corners.append(cat_pos + Vector2(46, 0)) # Bottom right corner
