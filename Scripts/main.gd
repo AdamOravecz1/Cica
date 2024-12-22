@@ -23,9 +23,9 @@ func _process(delta):
 		
 		
 func set_passthrough(cat_pos: Vector2, enable, falling, playing):
-	var down_cut := 38
+	var down_cut := 30
 	if playing:
-		down_cut = 18
+		down_cut = 10
 	if enable and !falling and down:
 		if (cat_pos.x > last_cat_pos.x - 110 and cat_pos.x < last_cat_pos.x + 110) and (cat_pos.y > last_cat_pos.y - 100 and cat_pos.y < last_cat_pos.y + 100) and on_floor:
 			middle_cat_pos = (last_cat_pos + cat_pos) / 2
