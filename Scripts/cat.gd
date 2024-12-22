@@ -11,6 +11,7 @@ var facing_left := false
 var dragging := false
 var falling := false
 var upable := false
+var play := false
 
 var total_maximum_window_size #also mainly for debugging
 var start_playable_area = DisplayServer.screen_get_position(DisplayServer.get_keyboard_focus_screen()) #First pixel at the top left
@@ -43,15 +44,24 @@ func turn():
 	
 
 func _process(delta):
-	if Input.is_action_just_pressed("click") and upable:
+	if Input.is_action_just_pressed("click") and upable and not play:
 		speed = 0
 		dragging = !dragging
 		$RestTimer.stop()
 		animation.play("up")
 		
+	if Input.is_action_just_pressed("play") and upable and not play:
+		$RestTimer.stop()
+		play = true
+		animation.play("play")
+		speed = 0
+		if type == 1:
+			animation.position.y += 33
+		
+		
 	#passthrough_update_timer += delta
 	#if passthrough_update_timer >= passthrough_update_interval:
-	main.set_passthrough(position, !dragging, falling)
+	main.set_passthrough(position, !dragging, falling, play)
 		#passthrough_update_timer = 0
 		
 	if (position.x > screen_size-50 or position.x < 50) and !falling and !dragging:
@@ -96,11 +106,22 @@ func _on_animated_sprite_2d_animation_finished():
 	if animation.animation == "wake_up":
 		animation.play("walk")
 		speed = 50
+	if animation.animation == "play":
+		animation.play("walk")
+		speed = 50
+		play = false
+		$RestTimer.start()
 
 func _on_animated_sprite_2d_2_animation_finished():
 	if animation.animation == "wake_up":
 		animation.play("walk")
 		speed = 50
+	if animation.animation == "play":
+		animation.play("walk")
+		speed = 50
+		play = false
+		$RestTimer.start()
+		animation.position.y -= 33
 	
 func _on_mouse_entered():
 	upable = true
