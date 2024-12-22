@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bq8lj2cbuv5qa"
-path="res://.godot/imported/PisztaCica.png-075176db26f81fe516489de37d7ea07d.ctex"
+uid="uid://r5h7fp4u8ww2"
+path="res://.godot/imported/Paw2.png-a4c4ba66712ebfba2f8a26f263524d11.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprite/PisztaCica.png"
-dest_files=["res://.godot/imported/PisztaCica.png-075176db26f81fe516489de37d7ea07d.ctex"]
+source_file="res://Sprite/Paw2.png"
+dest_files=["res://.godot/imported/Paw2.png-a4c4ba66712ebfba2f8a26f263524d11.ctex"]
 
 [params]
 

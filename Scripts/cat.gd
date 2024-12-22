@@ -50,7 +50,7 @@ func _process(delta):
 		$RestTimer.stop()
 		animation.play("up")
 		
-	if Input.is_action_just_pressed("play") and upable and not play:
+	if Input.is_action_just_pressed("play") and upable and not play and not falling:
 		$RestTimer.stop()
 		play = true
 		animation.play("play")
